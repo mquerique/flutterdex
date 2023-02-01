@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterdex/core/themes/app_themes.dart';
+import 'package:flutterdex/core/themes/bloc/theme_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,57 +12,58 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return BlocProvider(
+      create: (_) => ThemeBloc(),
+      child: const BlocBuilder<ThemeBloc, ThemeState>(
+        builder: _buildApp,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
+Widget _buildApp(BuildContext context, ThemeState state) {
+  return MaterialApp(
+    title: 'Flutter Demo',
+    theme: state.themeData,
+    home: const MyHomePage(),
+  );
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text('Flutterdex'),
+        actions: <Widget>[
+          PopupMenuButton(
+            itemBuilder: (ctx) {
+              return [
+                const PopupMenuItem(
+                  value: AppTheme.light,
+                  child: Text("Light"),
+                ),
+                const PopupMenuItem(
+                  value: AppTheme.dark,
+                  child: Text("Dark"),
+                ),
+              ];
+            },
+            onSelected: (theme) {
+              BlocProvider.of<ThemeBloc>(context).add(
+                ThemeChanged(theme: theme),
+              );
+            },
+          ),
+        ],
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+        child: Text(
+          'Hello!',
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
