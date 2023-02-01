@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutterdex/core/localization/app_localization.dart';
 import 'package:flutterdex/core/themes/app_themes.dart';
 import 'package:flutterdex/core/themes/bloc/theme_bloc.dart';
 
@@ -23,8 +25,28 @@ class MyApp extends StatelessWidget {
 
 Widget _buildApp(BuildContext context, ThemeState state) {
   return MaterialApp(
-    title: 'Flutter Demo',
+    title: 'FlutterDex',
+    debugShowCheckedModeBanner: false,
     theme: state.themeData,
+    supportedLocales: const [
+      Locale('en', 'US'),
+      Locale('pt', 'BR'),
+    ],
+    localizationsDelegates: const [
+      AppLocalization.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+    ],
+    localeResolutionCallback: (locale, supportedLocales) {
+      for (var supportedLocale in supportedLocales) {
+        if (supportedLocale.languageCode == locale?.languageCode &&
+            supportedLocale.countryCode == locale?.countryCode) {
+          return supportedLocale;
+        }
+      }
+      return supportedLocales.first;
+    },
     home: const MyHomePage(),
   );
 }
@@ -34,20 +56,21 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutterdex'),
+        title: Text(appLocalization.tr('app_title')),
         actions: <Widget>[
           PopupMenuButton(
             itemBuilder: (ctx) {
               return [
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: AppTheme.light,
-                  child: Text("Light"),
+                  child: Text(appLocalization.tr('light_mode')),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: AppTheme.dark,
-                  child: Text("Dark"),
+                  child: Text(appLocalization.tr('dark_mode')),
                 ),
               ];
             },
@@ -61,7 +84,7 @@ class MyHomePage extends StatelessWidget {
       ),
       body: Center(
         child: Text(
-          'Hello!',
+          appLocalization.tr('hello'),
           style: Theme.of(context).textTheme.bodyLarge,
         ),
       ),
