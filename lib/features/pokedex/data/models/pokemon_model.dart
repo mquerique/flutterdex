@@ -11,16 +11,12 @@ class PokemonModel extends Pokemon {
   factory PokemonModel.fromJson(Map<String, dynamic> json) {
     return PokemonModel(
       name: json['name'],
-      pokeType: (json['types'] as List<Map<String, dynamic>>)
-          .map(
-            (it) => it['name'] as String,
-          )
-          .toList(),
-      abilities: (json['abilities'] as List<Map<String, dynamic>>)
-          .map(
-            (it) => it['ability']['name'] as String,
-          )
-          .toList(),
+      pokeType:
+          json['types'].map((it) => it['type']['name']).toList().cast<String>(),
+      abilities: json['abilities']
+          .map((it) => it['ability']['name'])
+          .toList()
+          .cast<String>(),
       imageUrl: json['sprites']['front_default'],
     );
   }

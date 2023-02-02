@@ -3,5 +3,6 @@
   "app_description": "Uma Pokédex Flutter",
   "hello": "Olá",
   "light_mode": "Modo claro",
-  "dark_mode": "Modo escuro"
+  "dark_mode": "Modo escuro",
+  "pokedex": "Pokédex"
 }

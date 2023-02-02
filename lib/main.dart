@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutterdex/core/localization/app_localization.dart';
-import 'package:flutterdex/core/themes/app_themes.dart';
 import 'package:flutterdex/core/themes/bloc/theme_bloc.dart';
+import 'package:flutterdex/features/pokedex/presentation/screens/pokedex_screen.dart';
+import 'package:flutterdex/injection_container.dart' as ic;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await ic.setup();
   runApp(const MyApp());
 }
 
@@ -47,47 +50,6 @@ Widget _buildApp(BuildContext context, ThemeState state) {
       }
       return supportedLocales.first;
     },
-    home: const MyHomePage(),
+    home: const PokedexScreen(),
   );
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final appLocalization = AppLocalization.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(appLocalization.tr('app_title')),
-        actions: <Widget>[
-          PopupMenuButton(
-            itemBuilder: (ctx) {
-              return [
-                PopupMenuItem(
-                  value: AppTheme.light,
-                  child: Text(appLocalization.tr('light_mode')),
-                ),
-                PopupMenuItem(
-                  value: AppTheme.dark,
-                  child: Text(appLocalization.tr('dark_mode')),
-                ),
-              ];
-            },
-            onSelected: (theme) {
-              BlocProvider.of<ThemeBloc>(context).add(
-                ThemeChanged(theme: theme),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Center(
-        child: Text(
-          appLocalization.tr('hello'),
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-      ),
-    );
-  }
 }
