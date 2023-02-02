@@ -4,5 +4,7 @@
   "hello": "Olá",
   "light_mode": "Modo claro",
   "dark_mode": "Modo escuro",
-  "pokedex": "Pokédex"
+  "pokedex": "Pokédex",
+  "nothing_to_show": "Nada para exibir aqui",
+  "something_went_wrong": "Oops, parece que algo deu errado"
 }

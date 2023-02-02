@@ -15,7 +15,6 @@ class PokedexBloc extends Bloc<PokedexEvent, PokedexState> {
     required this.getPokedex,
   }) : super(PokedexEmptyState()) {
     on<GetPokedexEvent>((event, emit) async {
-      emit(PokedexLoadingState());
       try {
         final result = await getPokedex(
           offset: event.offset,
