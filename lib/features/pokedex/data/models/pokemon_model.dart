@@ -1,18 +1,20 @@
+import 'package:flutterdex/features/pokedex/domain/entities/poke_type.dart';
 import 'package:flutterdex/features/pokedex/domain/entities/pokemon.dart';
 
 class PokemonModel extends Pokemon {
   const PokemonModel({
     required super.name,
-    required super.pokeType,
+    required super.pokeTypes,
     required super.abilities,
     super.imageUrl,
   });
 
   factory PokemonModel.fromJson(Map<String, dynamic> json) {
+    final List<String> typesString =
+        json['types'].map((it) => it['type']['name']).toList().cast<String>();
     return PokemonModel(
       name: json['name'],
-      pokeType:
-          json['types'].map((it) => it['type']['name']).toList().cast<String>(),
+      pokeTypes: typesString.map((it) => PokeType.values.byName(it)).toList(),
       abilities: json['abilities']
           .map((it) => it['ability']['name'])
           .toList()
@@ -24,7 +26,7 @@ class PokemonModel extends Pokemon {
   Map<String, dynamic> toJson() {
     return {
       'name': name,
-      'pokeType': pokeType,
+      'pokeType': pokeTypes,
       'abilities': abilities,
       'imageUrl': imageUrl,
     };

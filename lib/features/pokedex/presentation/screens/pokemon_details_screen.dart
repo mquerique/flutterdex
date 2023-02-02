@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterdex/core/util/string_extension.dart';
 import 'package:flutterdex/features/pokedex/domain/entities/pokemon.dart';
+import 'package:flutterdex/features/pokedex/presentation/widgets/pokemon_image.dart';
+import 'package:flutterdex/features/pokedex/presentation/widgets/pokemon_type_badge.dart';
 
 class PokemonDetailsScreen extends StatelessWidget {
   final Pokemon pokemon;
@@ -26,13 +28,13 @@ class PokemonDetailsScreen extends StatelessWidget {
     return Column(
       children: [
         Text(pokemon.name),
-        Image.network(
-          pokemon.imageUrl!,
-          height: 200,
-          fit: BoxFit.cover,
-        ),
+        PokemonImage(pokemon: pokemon),
         Row(
-          children: pokemon.pokeType.map((it) => Text(it)).toList(),
+          children: pokemon.pokeTypes
+              .map(
+                (it) => PokemonTypeBadge(pokeType: it),
+              )
+              .toList(),
         ),
         Row(
           children: pokemon.abilities.map((it) => Text(it)).toList(),
