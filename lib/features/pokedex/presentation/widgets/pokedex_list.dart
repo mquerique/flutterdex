@@ -16,7 +16,7 @@ class PokedexListview extends StatefulWidget {
 }
 
 class _PokedexListviewState extends State<PokedexListview> {
-  static const _fetchLimit = 15;
+  static const _fetchLimit = 30;
 
   final Set<Pokemon> _loadedPokemon = {};
   late ScrollController scrollController;
