@@ -20,6 +20,11 @@ class PokedexRepositoryImpl implements PokedexRepository {
   }
 
   @override
+  Future<List<CustomPokemon>> listCustomPokemon() {
+    return localDataSource.listCustomPokemon();
+  }
+
+  @override
   Future<void> addCustomPokemon(CustomPokemon pokemon) {
     return localDataSource.addCustomPokemon(
       CustomPokemonModel.fromEntity(pokemon),
@@ -27,7 +32,7 @@ class PokedexRepositoryImpl implements PokedexRepository {
   }
 
   @override
-  Future<List<CustomPokemon>> listCustomPokemon() {
-    return localDataSource.listCustomPokemon();
+  Future<void> removeCustomPokemon({required String id}) {
+    return localDataSource.removeCustomPokemon(id: id);
   }
 }

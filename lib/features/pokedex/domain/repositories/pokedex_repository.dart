@@ -7,4 +7,6 @@ abstract class PokedexRepository {
   Future<List<CustomPokemon>> listCustomPokemon();
 
   Future<void> addCustomPokemon(CustomPokemon pokemon);
+
+  Future<void> removeCustomPokemon({required String id});
 }

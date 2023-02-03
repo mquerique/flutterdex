@@ -9,5 +9,9 @@
   "new_custom_pokemon": "Create new custom Pokémon",
   "custom_pokemon": "Custom Pokémon",
   "nothing_to_show": "Nothing to show here",
-  "something_went_wrong": "Oops, it seems like something went wrong"
+  "something_went_wrong": "Oops, it seems like something went wrong",
+  "delete": "Delete",
+  "cancel": "Cancel",
+  "warning": "Warning",
+  "pokemon_delete_confirmation": "Are you sure you want to delete this Pokémon?"
 }

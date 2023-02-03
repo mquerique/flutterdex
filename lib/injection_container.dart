@@ -6,6 +6,7 @@ import 'package:flutterdex/features/pokedex/domain/repositories/pokedex_reposito
 import 'package:flutterdex/features/pokedex/domain/usecases/add_custom_pokemon_usecase.dart';
 import 'package:flutterdex/features/pokedex/domain/usecases/get_custom_pokedex_usecase.dart';
 import 'package:flutterdex/features/pokedex/domain/usecases/get_pokedex_usecase.dart';
+import 'package:flutterdex/features/pokedex/domain/usecases/remove_custom_pokemon_usecase.dart';
 import 'package:flutterdex/features/pokedex/presentation/blocs/pokedex_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -21,6 +22,7 @@ Future<void> setup() async {
       getPokedex: getIt(),
       getCustomPokedex: getIt(),
       addPokemon: getIt(),
+      removePokemon: getIt(),
     ),
   );
 
@@ -28,6 +30,7 @@ Future<void> setup() async {
   getIt.registerLazySingleton(() => GetPokedexUsecase(getIt()));
   getIt.registerLazySingleton(() => GetCustomPokedexUsecase(getIt()));
   getIt.registerLazySingleton(() => AddCustomPokemonUsecase(getIt()));
+  getIt.registerLazySingleton(() => RemoveCustomPokemonUsecase(getIt()));
 
   // Repositories
   getIt.registerLazySingleton<PokedexRepository>(

@@ -11,9 +11,9 @@ class PokemonLocalDataSource {
     prefs.setString(pokemon.id, json.encode(pokemon.toJson()));
   }
 
-  Future<void> removeCustomPokemon(CustomPokemonModel pokemon) async {
+  Future<void> removeCustomPokemon({required String id}) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.remove(pokemon.id);
+    prefs.remove(id);
   }
 
   Future<List<CustomPokemonModel>> listCustomPokemon() async {

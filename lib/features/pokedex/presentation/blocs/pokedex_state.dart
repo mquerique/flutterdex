@@ -35,4 +35,6 @@ class CustomPokedexLoadedState extends PokedexState {
 
 class CustomPokemonAddedState extends PokedexState {}
 
+class CustomPokemonRemovedState extends PokedexState {}
+
 class PokedexErrorState extends PokedexState {}

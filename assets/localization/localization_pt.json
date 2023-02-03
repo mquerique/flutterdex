@@ -9,5 +9,9 @@
   "new_custom_pokemon": "Criar novo Pokémon custom",
   "custom_pokemon": "Pokémon custom",
   "nothing_to_show": "Nada para exibir aqui",
-  "something_went_wrong": "Oops, parece que algo deu errado"
+  "something_went_wrong": "Oops, parece que algo deu errado",
+  "delete": "Excluir",
+  "cancel": "Cancelar",
+  "warning": "Alerta",
+  "pokemon_delete_confirmation": "Você tem certeza que deseja excluir esse Pokémon?"
 }

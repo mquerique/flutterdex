@@ -40,3 +40,14 @@ class AddCustomPokemonEvent extends PokedexEvent {
   @override
   List<Object?> get props => [name, pokeTypes, abilities, imagePath];
 }
+
+class RemoveCustomPokemonEvent extends PokedexEvent {
+  final String id;
+
+  const RemoveCustomPokemonEvent({
+    required this.id,
+  });
+
+  @override
+  List<Object?> get props => [id];
+}
