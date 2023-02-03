@@ -33,4 +33,6 @@ class CustomPokedexLoadedState extends PokedexState {
   List<Object> get props => [pokedex];
 }
 
+class CustomPokemonAddedState extends PokedexState {}
+
 class PokedexErrorState extends PokedexState {}

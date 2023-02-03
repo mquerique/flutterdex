@@ -22,12 +22,6 @@ class _PokedexListState extends State<PokedexList> {
   late ScrollController scrollController;
 
   @override
-  void initState() {
-    scrollController = ScrollController();
-    super.initState();
-  }
-
-  @override
   void dispose() {
     scrollController.dispose();
     super.dispose();
@@ -58,7 +52,10 @@ class _PokedexListState extends State<PokedexList> {
           _handleScroll(context);
         });
       _loadedPokemon.addAll(state.pokedex);
-      return PokedexGridView(pokemonList: _loadedPokemon.toList());
+      return PokedexGridView(
+        pokemonList: _loadedPokemon.toList(),
+        scrollController: scrollController,
+      );
     }
     return Text(AppLocalization.of(context).tr('something_went_wrong'));
   }

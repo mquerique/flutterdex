@@ -51,7 +51,9 @@ class PokedexBloc extends Bloc<PokedexEvent, PokedexState> {
         name: event.name,
         pokeTypes: event.pokeTypes,
         abilities: event.abilities,
+        imagePath: event.imagePath,
       );
+      emit(CustomPokemonAddedState());
     });
   }
 }
