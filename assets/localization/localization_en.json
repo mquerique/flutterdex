@@ -5,6 +5,9 @@
   "light_mode": "Light mode",
   "dark_mode": "Dark mode",
   "pokedex": "Pokédex",
+  "pokemon": "Pokémon",
+  "new_custom_pokemon": "Create new custom Pokémon",
+  "custom_pokemon": "Custom Pokémon",
   "nothing_to_show": "Nothing to show here",
   "something_went_wrong": "Oops, it seems like something went wrong"
 }

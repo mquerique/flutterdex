@@ -19,3 +19,24 @@ class GetPokedexEvent extends PokedexEvent {
   @override
   List<Object?> get props => [offset, limit];
 }
+
+class GetCustomPokedexEvent extends PokedexEvent {
+  const GetCustomPokedexEvent();
+}
+
+class AddCustomPokemonEvent extends PokedexEvent {
+  final String name;
+  final List<PokeType> pokeTypes;
+  final List<String> abilities;
+  final String? imagePath;
+
+  const AddCustomPokemonEvent({
+    required this.name,
+    required this.pokeTypes,
+    required this.abilities,
+    this.imagePath,
+  });
+
+  @override
+  List<Object?> get props => [name, pokeTypes, abilities, imagePath];
+}

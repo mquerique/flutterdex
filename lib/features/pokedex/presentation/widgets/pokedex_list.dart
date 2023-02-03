@@ -3,19 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterdex/core/localization/app_localization.dart';
 import 'package:flutterdex/features/pokedex/domain/entities/pokemon.dart';
 import 'package:flutterdex/features/pokedex/presentation/blocs/pokedex_bloc.dart';
-import 'package:flutterdex/features/pokedex/presentation/widgets/pokemon_card.dart';
+import 'package:flutterdex/features/pokedex/presentation/widgets/pokedex_grid_view.dart';
 import 'package:flutterdex/injection_container.dart';
 
-class PokedexListview extends StatefulWidget {
-  const PokedexListview({
+class PokedexList extends StatefulWidget {
+  const PokedexList({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<PokedexListview> createState() => _PokedexListviewState();
+  State<PokedexList> createState() => _PokedexListState();
 }
 
-class _PokedexListviewState extends State<PokedexListview> {
+class _PokedexListState extends State<PokedexList> {
   static const _fetchLimit = 50;
 
   final Set<Pokemon> _loadedPokemon = {};
@@ -58,27 +58,9 @@ class _PokedexListviewState extends State<PokedexListview> {
           _handleScroll(context);
         });
       _loadedPokemon.addAll(state.pokedex);
-      return _buildGridView();
+      return PokedexGridView(pokemonList: _loadedPokemon.toList());
     }
     return Text(AppLocalization.of(context).tr('something_went_wrong'));
-  }
-
-  Widget _buildGridView() {
-    const paddingSize = 8.0;
-    return GridView.builder(
-      padding: const EdgeInsets.all(paddingSize),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: paddingSize,
-        mainAxisSpacing: paddingSize,
-        childAspectRatio: 3 / 2,
-      ),
-      controller: scrollController,
-      itemBuilder: (ctx, index) {
-        return PokemonCard(pokemon: _loadedPokemon.elementAt(index));
-      },
-      itemCount: _loadedPokemon.length,
-    );
   }
 
   void _handleScroll(BuildContext context) {

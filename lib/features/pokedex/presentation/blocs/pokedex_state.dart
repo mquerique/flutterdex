@@ -22,4 +22,15 @@ class PokedexLoadedState extends PokedexState {
   List<Object> get props => [pokedex];
 }
 
+class CustomPokedexLoadedState extends PokedexState {
+  final List<CustomPokemon> pokedex;
+
+  const CustomPokedexLoadedState({
+    required this.pokedex,
+  });
+
+  @override
+  List<Object> get props => [pokedex];
+}
+
 class PokedexErrorState extends PokedexState {}
