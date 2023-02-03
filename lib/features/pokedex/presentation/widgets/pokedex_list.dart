@@ -16,7 +16,7 @@ class PokedexListview extends StatefulWidget {
 }
 
 class _PokedexListviewState extends State<PokedexListview> {
-  static const _fetchLimit = 30;
+  static const _fetchLimit = 50;
 
   final Set<Pokemon> _loadedPokemon = {};
   late ScrollController scrollController;
@@ -58,13 +58,21 @@ class _PokedexListviewState extends State<PokedexListview> {
           _handleScroll(context);
         });
       _loadedPokemon.addAll(state.pokedex);
-      return _buildListView();
+      return _buildGridView();
     }
     return Text(AppLocalization.of(context).tr('something_went_wrong'));
   }
 
-  Widget _buildListView() {
-    return ListView.builder(
+  Widget _buildGridView() {
+    const paddingSize = 8.0;
+    return GridView.builder(
+      padding: const EdgeInsets.all(paddingSize),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: paddingSize,
+        mainAxisSpacing: paddingSize,
+        childAspectRatio: 3 / 2,
+      ),
       controller: scrollController,
       itemBuilder: (ctx, index) {
         return PokemonCard(pokemon: _loadedPokemon.elementAt(index));

@@ -19,7 +19,7 @@ class PokemonModel extends Pokemon {
           .map((it) => it['ability']['name'])
           .toList()
           .cast<String>(),
-      imageUrl: json['sprites']['front_default'],
+      imageUrl: json['sprites']['other']['official-artwork']['front_default'],
     );
   }
 

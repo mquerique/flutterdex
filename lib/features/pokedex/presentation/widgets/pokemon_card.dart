@@ -15,16 +15,8 @@ class PokemonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: PokemonImage(pokemon: pokemon),
-      title: Text(pokemon.name.capitalize()),
-      trailing: Column(
-        children: pokemon.pokeTypes
-            .map(
-              (it) => PokemonTypeBadge(pokeType: it),
-            )
-            .toList(),
-      ),
+    return InkWell(
+      borderRadius: BorderRadius.circular(16),
       onTap: () {
         Navigator.push(
           context,
@@ -33,6 +25,58 @@ class PokemonCard extends StatelessWidget {
           ),
         );
       },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          color: pokemon.pokeTypes[0].color.withOpacity(0.8),
+          child: _buildContent(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.only(
+            top: 8,
+            left: 8,
+          ),
+          child: Text(
+            pokemon.name.capitalize(),
+            maxLines: 1,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ...pokemon.pokeTypes
+                    .map((it) => PokemonTypeBadge(pokeType: it))
+                    .toList(),
+                const SizedBox(height: 4),
+              ],
+            ),
+            _buildImage(),
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget _buildImage() {
+    return SizedBox(
+      height: 90,
+      child: PokemonImage(pokemon: pokemon),
     );
   }
 }
