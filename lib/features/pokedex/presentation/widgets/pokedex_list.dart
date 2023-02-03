@@ -4,7 +4,6 @@ import 'package:flutterdex/core/localization/app_localization.dart';
 import 'package:flutterdex/features/pokedex/domain/entities/pokemon.dart';
 import 'package:flutterdex/features/pokedex/presentation/blocs/pokedex_bloc.dart';
 import 'package:flutterdex/features/pokedex/presentation/widgets/pokedex_grid_view.dart';
-import 'package:flutterdex/injection_container.dart';
 
 class PokedexList extends StatefulWidget {
   const PokedexList({
@@ -22,6 +21,14 @@ class _PokedexListState extends State<PokedexList> {
   late ScrollController scrollController;
 
   @override
+  void didChangeDependencies() {
+    BlocProvider.of<PokedexBloc>(context).add(
+      const GetPokedexEvent(limit: _fetchLimit),
+    );
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     scrollController.dispose();
     super.dispose();
@@ -29,22 +36,16 @@ class _PokedexListState extends State<PokedexList> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<PokedexBloc>(
-      create: (_) => getIt<PokedexBloc>()
-        ..add(
-          const GetPokedexEvent(limit: _fetchLimit),
-        ),
-      child: Center(
-        child: BlocBuilder<PokedexBloc, PokedexState>(
-          builder: _buildPokedex,
-        ),
+    return Center(
+      child: BlocBuilder<PokedexBloc, PokedexState>(
+        builder: _buildPokedex,
       ),
     );
   }
 
   Widget _buildPokedex(BuildContext context, PokedexState state) {
-    if (state is PokedexEmptyState || state is PokedexLoadingState) {
-      return const CircularProgressIndicator();
+    if (state is PokedexErrorState) {
+      return Text(AppLocalization.of(context).tr('something_went_wrong'));
     }
     if (state is PokedexLoadedState) {
       scrollController = ScrollController()
@@ -57,7 +58,7 @@ class _PokedexListState extends State<PokedexList> {
         scrollController: scrollController,
       );
     }
-    return Text(AppLocalization.of(context).tr('something_went_wrong'));
+    return const CircularProgressIndicator();
   }
 
   void _handleScroll(BuildContext context) {

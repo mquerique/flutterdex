@@ -47,13 +47,20 @@ class PokedexBloc extends Bloc<PokedexEvent, PokedexState> {
     });
 
     on<AddCustomPokemonEvent>((event, emit) async {
-      await addPokemon(
-        name: event.name,
-        pokeTypes: event.pokeTypes,
-        abilities: event.abilities,
-        imagePath: event.imagePath,
-      );
-      emit(CustomPokemonAddedState());
+      try {
+        await addPokemon(
+          name: event.name,
+          pokeTypes: event.pokeTypes,
+          abilities: event.abilities,
+          imagePath: event.imagePath,
+        );
+        emit(CustomPokemonAddedState());
+        final updatedPokedex = await getCustomPokedex();
+        emit(CustomPokedexLoadedState(pokedex: updatedPokedex));
+      } catch (e) {
+        Logger.log(e);
+        emit(PokedexErrorState());
+      }
     });
   }
 }

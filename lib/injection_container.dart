@@ -1,3 +1,4 @@
+import 'package:flutterdex/core/themes/bloc/theme_bloc.dart';
 import 'package:flutterdex/features/pokedex/data/datasources/pokemon_local_data_source.dart';
 import 'package:flutterdex/features/pokedex/data/datasources/pokemon_remote_data_source.dart';
 import 'package:flutterdex/features/pokedex/data/repositories/pokedex_repository_impl.dart';
@@ -13,6 +14,8 @@ final getIt = GetIt.instance;
 
 Future<void> setup() async {
   // Blocs
+  getIt.registerFactory(() => ThemeBloc());
+
   getIt.registerFactory(
     () => PokedexBloc(
       getPokedex: getIt(),

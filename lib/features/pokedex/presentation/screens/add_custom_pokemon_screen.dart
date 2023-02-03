@@ -6,7 +6,6 @@ import 'package:flutterdex/core/widgets/input_field.dart';
 import 'package:flutterdex/features/pokedex/domain/entities/poke_type.dart';
 import 'package:flutterdex/features/pokedex/presentation/blocs/pokedex_bloc.dart';
 import 'package:flutterdex/features/pokedex/presentation/widgets/pokemon_type_selection.dart';
-import 'package:flutterdex/injection_container.dart';
 
 class AddCustomPokemonScreen extends StatefulWidget {
   const AddCustomPokemonScreen({Key? key}) : super(key: key);
@@ -35,11 +34,8 @@ class _AddCustomPokemonScreenState extends State<AddCustomPokemonScreen> {
       appBar: AppBar(
         title: Text(_appLocalization.tr('new_custom_pokemon')),
       ),
-      body: BlocProvider(
-        create: (_) => getIt<PokedexBloc>(),
-        child: SingleChildScrollView(
-          child: _buildBody(),
-        ),
+      body: SingleChildScrollView(
+        child: _buildBody(),
       ),
     );
   }

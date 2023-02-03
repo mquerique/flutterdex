@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutterdex/core/localization/app_localization.dart';
 import 'package:flutterdex/core/themes/bloc/theme_bloc.dart';
+import 'package:flutterdex/features/pokedex/presentation/blocs/pokedex_bloc.dart';
 import 'package:flutterdex/features/pokedex/presentation/screens/pokedex_screen.dart';
 import 'package:flutterdex/injection_container.dart' as ic;
+import 'package:flutterdex/injection_container.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,8 +19,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ThemeBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => getIt<ThemeBloc>()),
+        BlocProvider(create: (_) => getIt<PokedexBloc>()),
+      ],
       child: const BlocBuilder<ThemeBloc, ThemeState>(
         builder: _buildApp,
       ),
