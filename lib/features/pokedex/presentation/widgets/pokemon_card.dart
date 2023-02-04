@@ -48,8 +48,9 @@ class PokemonCard extends StatelessWidget {
             pokemon.name.capitalize(),
             maxLines: 1,
             style: const TextStyle(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.w700,
+              color: Colors.white,
             ),
           ),
         ),
@@ -57,8 +58,8 @@ class PokemonCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
+            const SizedBox(width: 4),
             Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ...pokemon.pokeTypes
                     .map((it) => PokemonTypeBadge(pokeType: it))
@@ -76,7 +77,15 @@ class PokemonCard extends StatelessWidget {
   Widget _buildImage() {
     return SizedBox(
       height: 90,
-      child: PokemonImage(pokemon: pokemon),
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white38,
+          shape: BoxShape.circle,
+        ),
+        child: PokemonImage(
+          pokemon: pokemon,
+        ),
+      ),
     );
   }
 }

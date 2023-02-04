@@ -12,9 +12,15 @@ ThemeData _baseTheme(Brightness brightness) {
       primary: Colors.red,
       secondary: Colors.red,
       onSecondary: Colors.white,
+      onPrimary: Colors.white,
     ),
     appBarTheme: const AppBarTheme(
       color: Colors.red,
+    ),
+    textTheme: theme.textTheme.copyWith(
+      bodyLarge: theme.textTheme.bodyLarge!.copyWith(fontSize: 24),
+      bodyMedium: theme.textTheme.bodyMedium!.copyWith(fontSize: 18),
+      bodySmall: theme.textTheme.bodySmall!.copyWith(fontSize: 16),
     ),
   );
 }

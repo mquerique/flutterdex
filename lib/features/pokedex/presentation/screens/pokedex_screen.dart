@@ -56,14 +56,23 @@ class _PokedexScreenState extends State<PokedexScreen> {
         ),
       ],
       bottom: TabBar(
+        indicatorColor: Theme.of(context).colorScheme.onPrimary,
         onTap: (tabIndex) {
           setState(() {
             _tabIndex = tabIndex;
           });
         },
         tabs: [
-          Tab(child: Text(appLocalization.tr('pokemon'))),
-          Tab(child: Text(appLocalization.tr('custom_pokemon'))),
+          Tab(
+              child: Text(
+            appLocalization.tr('pokemon'),
+            style: const TextStyle(fontSize: 16),
+          )),
+          Tab(
+              child: Text(
+            appLocalization.tr('custom_pokemon'),
+            style: const TextStyle(fontSize: 16),
+          )),
         ],
       ),
     );

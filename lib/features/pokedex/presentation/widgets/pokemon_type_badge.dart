@@ -15,10 +15,14 @@ class PokemonTypeBadge extends StatelessWidget {
       alignment: Alignment.center,
       height: 20,
       width: 80,
-      color: pokeType.color,
+      decoration: BoxDecoration(
+        color: pokeType.color,
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Text(
         pokeType.name.toUpperCase(),
         style: const TextStyle(
+          fontSize: 14,
           fontWeight: FontWeight.w700,
           color: Colors.white,
         ),

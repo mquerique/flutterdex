@@ -8,7 +8,7 @@ import 'package:flutterdex/features/pokedex/presentation/blocs/bloc.dart';
 import 'package:flutterdex/features/pokedex/presentation/widgets/pokemon_image.dart';
 import 'package:flutterdex/features/pokedex/presentation/widgets/pokemon_type_badge.dart';
 
-class PokemonDetailsScreen extends StatelessWidget {
+class PokemonDetailsScreen extends StatefulWidget {
   final Pokemon pokemon;
 
   const PokemonDetailsScreen({
@@ -16,7 +16,22 @@ class PokemonDetailsScreen extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  bool get isCustom => pokemon is CustomPokemon;
+  @override
+  State<PokemonDetailsScreen> createState() => _PokemonDetailsScreenState();
+}
+
+class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
+  late AppLocalization _appLocalization;
+
+  bool get _isCustom => widget.pokemon is CustomPokemon;
+
+  Color get _typeColor => widget.pokemon.pokeTypes[0].color;
+
+  @override
+  void didChangeDependencies() {
+    _appLocalization = AppLocalization.of(context);
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +42,7 @@ class PokemonDetailsScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-        appBar: _buildAppBar(context),
+        appBar: _buildAppBar(),
         body: SingleChildScrollView(
           child: _buildBody(),
         ),
@@ -35,20 +50,27 @@ class PokemonDetailsScreen extends StatelessWidget {
     );
   }
 
-  AppBar _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar() {
     return AppBar(
-      title: Text(pokemon.name.capitalize()),
-      actions: isCustom
+      backgroundColor: _typeColor.withOpacity(0.8),
+      elevation: 0,
+      centerTitle: true,
+      title: Text(
+        widget.pokemon.name.capitalize(),
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: Colors.white,
+            ),
+      ),
+      actions: _isCustom
           ? <Widget>[
               PopupMenuButton(
                 itemBuilder: (ctx) {
-                  final appLocalization = AppLocalization.of(ctx);
                   return [
                     PopupMenuItem(
-                      child: Text(appLocalization.tr('delete')),
+                      child: Text(_appLocalization.tr('delete')),
                       onTap: () {
                         WidgetsBinding.instance.addPostFrameCallback((_) {
-                          _showDeleteConfirmation(context);
+                          _showDeleteConfirmation();
                         });
                       },
                     ),
@@ -63,44 +85,106 @@ class PokemonDetailsScreen extends StatelessWidget {
   Widget _buildBody() {
     return Column(
       children: [
-        Text(pokemon.name),
-        PokemonImage(pokemon: pokemon),
-        Row(
-          children: pokemon.pokeTypes
-              .map(
-                (it) => PokemonTypeBadge(pokeType: it),
-              )
-              .toList(),
-        ),
-        Row(
-          children: pokemon.abilities.map((it) => Text(it)).toList(),
-        ),
+        _buildImage(),
+        _buildInfo(),
       ],
     );
   }
 
-  Future<void> _showDeleteConfirmation(BuildContext context) async {
+  Widget _buildImage() {
+    return Container(
+      height: 300,
+      width: double.infinity,
+      padding: const EdgeInsets.only(bottom: 8),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
+        color: _typeColor.withOpacity(0.8),
+      ),
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white38,
+          shape: BoxShape.circle,
+        ),
+        child: PokemonImage(
+          pokemon: widget.pokemon,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfo() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: widget.pokemon.pokeTypes
+                .map((it) => PokemonTypeBadge(pokeType: it))
+                .toList(),
+          ),
+          const SizedBox(height: 16),
+          _buildStats(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStats() {
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            _appLocalization.tr('abilities'),
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          const SizedBox(height: 8),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: widget.pokemon.abilities
+                .map(
+                  (it) => Padding(
+                    padding: const EdgeInsets.only(bottom: 4),
+                    child: Text(
+                      it.capitalize(),
+                      style: Theme.of(context).textTheme.bodySmall,
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showDeleteConfirmation() async {
     return showDialog<void>(
       context: context,
       builder: (ctx) {
-        final appLocalization = AppLocalization.of(ctx);
-
         return AlertDialog(
-          title: Text(appLocalization.tr('warning')),
-          content: Text(appLocalization.tr('pokemon_delete_confirmation')),
+          title: Text(_appLocalization.tr('warning')),
+          content: Text(_appLocalization.tr('pokemon_delete_confirmation')),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(ctx).pop(),
-              child: Text(appLocalization.tr('cancel')),
+              child: Text(_appLocalization.tr('cancel')),
             ),
             TextButton(
               onPressed: () {
                 BlocProvider.of<PokedexBloc>(ctx).add(
-                  RemoveCustomPokemonEvent(id: (pokemon as CustomPokemon).id),
+                  RemoveCustomPokemonEvent(
+                      id: (widget.pokemon as CustomPokemon).id),
                 );
                 Navigator.of(ctx).pop();
               },
-              child: Text(appLocalization.tr('delete')),
+              child: Text(_appLocalization.tr('delete')),
             ),
           ],
         );
