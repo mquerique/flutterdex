@@ -77,6 +77,7 @@ class PokemonCard extends StatelessWidget {
   Widget _buildImage() {
     return SizedBox(
       height: 90,
+      width: 90,
       child: Container(
         decoration: const BoxDecoration(
           color: Colors.white38,

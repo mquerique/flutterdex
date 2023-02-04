@@ -33,7 +33,8 @@ class _PokedexScreenState extends State<PokedexScreen> {
     final appLocalization = AppLocalization.of(context);
 
     return AppBar(
-      title: Text(appLocalization.tr('pokedex')),
+      title: Text(appLocalization.tr('app_title')),
+      centerTitle: true,
       actions: <Widget>[
         PopupMenuButton(
           itemBuilder: (ctx) {

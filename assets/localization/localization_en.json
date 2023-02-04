@@ -22,6 +22,16 @@
   "warning": "Warning",
   "pokemon_delete_confirmation": "Are you sure you want to delete this Pokémon?",
   "abilities": "Abilities",
+  "info":  "Info",
+  "base_stats":  "Base stats",
+  "hp":  "HP",
+  "attack":  "Attack",
+  "defense":  "Defense",
+  "sp_attack":  "Sp. Attack",
+  "sp_defense":  "Sp. Defense",
+  "speed":  "Speed",
+  "weight": "Weight",
+  "height": "Height",
   "add_image": "Add image",
   "err_field_required": "Field required"
 }

@@ -24,7 +24,7 @@ class _PokemonImageInputState extends State<PokemonImageInput> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: _pickImage,
-      child: Container(
+      child: SizedBox(
         width: _imageSize,
         height: _imageSize,
         child: Stack(

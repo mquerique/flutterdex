@@ -24,7 +24,7 @@ class PokedexBloc extends Bloc<PokedexEvent, PokedexState> {
     required this.getCustomPokedex,
     required this.addPokemon,
     required this.removePokemon,
-  }) : super(PokedexEmptyState()) {
+  }) : super(PokedexInitialState()) {
     on<GetPokedexEvent>((event, emit) async {
       try {
         final result = await getPokedex(

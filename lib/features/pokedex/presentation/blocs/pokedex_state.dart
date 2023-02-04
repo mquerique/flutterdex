@@ -7,7 +7,7 @@ abstract class PokedexState extends Equatable {
   List<Object> get props => [];
 }
 
-class PokedexEmptyState extends PokedexState {}
+class PokedexInitialState extends PokedexState {}
 
 class PokedexLoadingState extends PokedexState {}
 

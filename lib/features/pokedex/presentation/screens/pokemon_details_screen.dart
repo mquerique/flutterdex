@@ -5,6 +5,7 @@ import 'package:flutterdex/core/util/string_extension.dart';
 import 'package:flutterdex/features/pokedex/domain/entities/custom_pokemon.dart';
 import 'package:flutterdex/features/pokedex/domain/entities/pokemon.dart';
 import 'package:flutterdex/features/pokedex/presentation/blocs/bloc.dart';
+import 'package:flutterdex/features/pokedex/presentation/widgets/poke_stat_bars.dart';
 import 'package:flutterdex/features/pokedex/presentation/widgets/pokemon_image.dart';
 import 'package:flutterdex/features/pokedex/presentation/widgets/pokemon_type_badge.dart';
 
@@ -86,7 +87,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
     return Column(
       children: [
         _buildImage(),
-        _buildInfo(),
+        _buildContent(),
       ],
     );
   }
@@ -115,7 +116,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
     );
   }
 
-  Widget _buildInfo() {
+  Widget _buildContent() {
     return Container(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -127,40 +128,84 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                 .toList(),
           ),
           const SizedBox(height: 16),
-          _buildStats(),
+          _buildInfo(),
+          const SizedBox(height: 16),
+          if (!_isCustom)
+            _buildContentSection(
+              title: _appLocalization.tr('base_stats'),
+              children: [
+                PokeStatBars(pokeStatus: widget.pokemon.stats!),
+              ],
+            ),
         ],
       ),
     );
   }
 
-  Widget _buildStats() {
-    return SizedBox(
-      width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            _appLocalization.tr('abilities'),
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          const SizedBox(height: 8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: widget.pokemon.abilities
-                .map(
-                  (it) => Padding(
-                    padding: const EdgeInsets.only(bottom: 4),
-                    child: Text(
-                      it.capitalize(),
+  Widget _buildInfo() {
+    return Column(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (!_isCustom)
+              Expanded(
+                child: _buildContentSection(
+                  title: _appLocalization.tr('info'),
+                  children: [
+                    Text(
+                      '${_appLocalization.tr('height')}: ${widget.pokemon.height} m',
                       style: Theme.of(context).textTheme.bodySmall,
-                      textAlign: TextAlign.start,
                     ),
-                  ),
-                )
-                .toList(),
-          ),
-        ],
-      ),
+                    Text(
+                      '${_appLocalization.tr('weight')}: ${widget.pokemon.weight} kg',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                ),
+              ),
+            Expanded(
+              child: _buildContentSection(
+                title: _appLocalization.tr('abilities'),
+                children: widget.pokemon.abilities
+                    .map(
+                      (it) => Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: Text(
+                          it.capitalize(),
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildContentSection({
+    required String title,
+    required List<Widget> children,
+  }) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: _typeColor,
+              ),
+        ),
+        const SizedBox(height: 8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: children,
+        ),
+      ],
     );
   }
 

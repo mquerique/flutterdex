@@ -34,6 +34,9 @@ class _CustomPokedexListState extends State<CustomPokedexList> {
       return Text(AppLocalization.of(context).tr('something_went_wrong'));
     }
     if (state is CustomPokedexLoadedState) {
+      if (state.pokedex.isEmpty) {
+        return Text(AppLocalization.of(context).tr('nothing_to_show'));
+      }
       return PokedexGridView(pokemonList: state.pokedex);
     }
     return const CircularProgressIndicator();

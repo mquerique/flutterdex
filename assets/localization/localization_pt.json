@@ -22,6 +22,16 @@
   "warning": "Alerta",
   "pokemon_delete_confirmation": "Você tem certeza que deseja excluir esse Pokémon?",
   "abilities": "Habilidades",
+  "info":  "Info",
+  "base_stats":  "Status base",
+  "hp":  "HP",
+  "attack":  "Ataque",
+  "defense":  "Defesa",
+  "sp_attack":  "Ataque Sp.",
+  "sp_defense":  "Defesa Sp.",
+  "speed":  "Velocidade",
+  "weight": "Peso",
+  "height": "Altura",
   "add_image": "Adicionar imagem",
   "err_field_required": "Campo obrigatório"
 }
